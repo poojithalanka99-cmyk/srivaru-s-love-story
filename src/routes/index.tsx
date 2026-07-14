@@ -609,9 +609,14 @@ function BirthdayApp() {
           <Timeline />
           <Gallery />
           <ReasonsCards />
+          <OpenWhenLetters />
+          <OurDreams />
+          <MusicSection />
+          <VideoMessage />
           <div ref={surpriseRef}>
             <FinalSurprise visible={surpriseVisible} />
           </div>
+
         </>
       )}
     </main>
