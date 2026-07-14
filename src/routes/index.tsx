@@ -238,7 +238,7 @@ function Welcome({ onBegin }: { onBegin: () => void }) {
       >
         Happy Birthday,
         <br />
-        <span className="gold-text font-display italic">Srivaru</span>
+        <span className="gold-text font-display italic">Srivaru ❤️</span>
       </h1>
       <p
         className="animate-fade-up mt-6 max-w-sm font-display text-lg italic text-[oklch(0.45_0.06_15)]"
@@ -246,9 +246,16 @@ function Welcome({ onBegin }: { onBegin: () => void }) {
       >
         A little journey through our love, made with all my heart.
       </p>
+      <p
+        className="animate-fade-up mt-4 max-w-sm font-display text-[15px] leading-relaxed text-[oklch(0.5_0.05_15)]"
+        style={{ animationDelay: "0.75s" }}
+      >
+        Every moment with you has become one of my favorite memories.
+        Today, I want to celebrate the wonderful person you are and remind you how deeply you are loved.
+      </p>
       <Divider />
       <div className="animate-fade-up mt-8" style={{ animationDelay: "0.9s" }}>
-        <GlowButton onClick={onBegin}>Begin Our Story ❤</GlowButton>
+        <GlowButton onClick={onBegin}>Begin Our Story ❤️</GlowButton>
       </div>
       <p className="mt-16 animate-bounce text-2xl text-rose/70">↓</p>
     </Section>
