@@ -2,6 +2,136 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 
+/* -------------------- Open When Letters -------------------- */
+const OPEN_WHEN = [
+  { title: "Open when you miss me", body: "Close your eyes. I'm right there — in every breath, in every heartbeat. Distance is just a number; you are always with me." },
+  { title: "Open when you're sad", body: "Remember your smile is my favourite view in the whole world. Whatever it is, we will face it together. I love you, always." },
+  { title: "Open when you need strength", body: "You are braver than you think and stronger than you know. And on the days you forget — I'll remind you. I believe in you completely." },
+  { title: "Open when you can't sleep", body: "Imagine my arms around you. My heartbeat is your lullaby tonight. Dream sweetly, my love. I'll be there in the morning." },
+  { title: "Open when you feel loved", body: "Good. Because you are. Endlessly, completely, and forever. Every single day. Just as you are." },
+];
+
+function OpenWhenLetters() {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  return (
+    <Section id="letters">
+      <SectionTitle overline="little envelopes" title="Open When…" />
+      <p className="mt-3 text-center text-sm italic text-[oklch(0.5_0.04_15)]">tap an envelope to open it</p>
+      <div className="mt-8 grid grid-cols-2 gap-3">
+        {OPEN_WHEN.map((l, i) => {
+          const isOpen = openIdx === i;
+          return (
+            <button
+              key={i}
+              onClick={() => setOpenIdx(isOpen ? null : i)}
+              className={`glass-card shadow-soft group relative overflow-hidden rounded-2xl p-4 text-left transition-all duration-500 ${isOpen ? "col-span-2 row-span-2" : "hover:scale-[1.03]"}`}
+              style={{ minHeight: isOpen ? "220px" : "120px" }}
+            >
+              <div className="text-3xl">{isOpen ? "💌" : "✉️"}</div>
+              <p className="mt-2 font-serif text-sm italic text-[oklch(0.35_0.08_15)]">{l.title}</p>
+              {isOpen && (
+                <p className="animate-fade-up mt-3 font-display text-[15px] leading-relaxed text-[oklch(0.4_0.05_15)]">{l.body}</p>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </Section>
+  );
+}
+
+/* -------------------- Our Dreams -------------------- */
+const DREAMS = [
+  { icon: "🏡", t: "Our little home", d: "A cozy corner of the world that's only ours." },
+  { icon: "✈️", t: "Travel the world", d: "Sunsets in Santorini, snowfall in Kashmir, and everything in between." },
+  { icon: "🌊", t: "Beach mornings", d: "Coffee, your hand in mine, and the sound of the sea." },
+  { icon: "👶", t: "A family of our own", d: "A little one with your eyes and my smile." },
+  { icon: "🌱", t: "Growing old together", d: "Wrinkles, grey hair, and still holding hands." },
+];
+
+function OurDreams() {
+  return (
+    <Section id="dreams">
+      <SectionTitle overline="together forever" title="Our Dreams" />
+      <div className="mt-8 space-y-4">
+        {DREAMS.map((d, i) => (
+          <div key={i} className="animate-fade-up glass-card shadow-soft flex items-center gap-4 rounded-2xl p-5" style={{ animationDelay: `${i * 0.08}s` }}>
+            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-rose text-2xl">{d.icon}</div>
+            <div className="min-w-0">
+              <p className="font-serif text-lg italic text-[oklch(0.32_0.07_15)]">{d.t}</p>
+              <p className="font-display text-[15px] text-[oklch(0.5_0.04_15)]">{d.d}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+/* -------------------- Music -------------------- */
+function MusicSection() {
+  const [playing, setPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const toggle = () => {
+    const a = audioRef.current;
+    if (!a) return;
+    if (playing) { a.pause(); setPlaying(false); }
+    else { a.play().then(() => setPlaying(true)).catch(() => setPlaying(false)); }
+  };
+
+  return (
+    <Section id="music">
+      <SectionTitle overline="our song" title="A Melody for You" />
+      <div className="glass-card shadow-soft animate-fade-up mt-8 rounded-3xl p-8 text-center">
+        <div className={`mx-auto grid h-28 w-28 place-items-center rounded-full bg-gradient-gold text-5xl text-white shadow-gold ${playing ? "animate-heart-beat" : ""}`}>
+          {playing ? "🎶" : "🎵"}
+        </div>
+        <p className="mt-6 font-serif text-xl italic text-[oklch(0.32_0.07_15)]">Perfect — Ed Sheeran</p>
+        <p className="mt-1 font-display text-sm italic text-[oklch(0.5_0.04_15)]">the song that always reminds me of you</p>
+        <div className="mt-6">
+          <GlowButton onClick={toggle} className="text-sm">
+            {playing ? "Pause the moment ❤" : "Play our song ❤"}
+          </GlowButton>
+        </div>
+        <audio
+          ref={audioRef}
+          loop
+          onEnded={() => setPlaying(false)}
+          src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_31c9f5f9a2.mp3?filename=romantic-piano-love-story-13440.mp3"
+        />
+        <p className="mt-4 text-xs italic text-[oklch(0.55_0.04_15)]">replaceable with our actual song later</p>
+      </div>
+    </Section>
+  );
+}
+
+/* -------------------- Video Message -------------------- */
+function VideoMessage() {
+  return (
+    <Section id="video">
+      <SectionTitle overline="just for you" title="A Video Message" />
+      <div className="glass-card shadow-soft animate-fade-up mt-8 overflow-hidden rounded-3xl p-4">
+        <div className="relative aspect-[9/12] w-full overflow-hidden rounded-2xl bg-gradient-rose">
+          <video
+            controls
+            playsInline
+            className="h-full w-full object-cover"
+            poster=""
+          >
+            <source src="https://cdn.pixabay.com/video/2022/12/12/142467-780956618_tiny.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <p className="mt-4 text-center font-display text-[15px] italic text-[oklch(0.4_0.05_15)]">
+          Every word I couldn't say — right here, from my heart to yours. 💕
+        </p>
+        <p className="mt-1 text-center text-xs italic text-[oklch(0.55_0.04_15)]">replace with your own recorded message</p>
+      </div>
+    </Section>
+  );
+}
+
+
 export const Route = createFileRoute("/")({
   component: BirthdayApp,
 });
